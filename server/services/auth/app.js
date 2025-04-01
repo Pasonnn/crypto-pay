@@ -34,5 +34,5 @@ app.use('/auth', authRoutes);
 //Start the server
 const port = process.env.AUTH_SERVICE_PORT || 3001;
 app.listen(port, () => {
-    console.log(`Auth Service is running on port ${port}`);
+    console.log(`Auth Service is running on localhost:${port}`);
 });

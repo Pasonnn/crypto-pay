@@ -4,19 +4,19 @@
     "description": "User management service handling registration, login, and profile access",
     "main": "app.js",
     "scripts": {
-      "start": "nodemon app.js",
-      "dev": "nodemon app.js",
-      "test": "echo \"No tests specified\" && exit 0"
+        "start": "nodemon app.js",
+        "dev": "nodemon app.js",
+        "test": "echo \"No tests specified\" && exit 0"
     },
     "dependencies": {
-      "bcrypt": "^5.1.1",
-      "bcryptjs": "^2.4.3",
-      "dotenv": "^16.4.5",
-      "express": "^4.21.1",
-      "jsonwebtoken": "^9.0.2",
-      "mongoose": "^5.13.22"
+        "bcrypt": "^5.1.1",
+        "bcryptjs": "^2.4.3",
+        "dotenv": "^16.4.5",
+        "express": "^4.21.1",
+        "jsonwebtoken": "^9.0.2",
+        "mongoose": "^5.13.22"
     },
     "devDependencies": {
-      "nodemon": "^3.1.7"
+        "nodemon": "^3.1.7"
     }
-  }
+}
