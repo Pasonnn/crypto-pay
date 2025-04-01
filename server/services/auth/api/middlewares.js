@@ -1,6 +1,8 @@
+// ./services/auth/api/middlewares.js
+
 const jwt = require('jsonwebtoken');
 
-exports.authenticateUser = (req, res, next) => {
+exports.authenticateToken = (req, res, next) => {
     try {
         const authHeader = req.header('Authorization');
 

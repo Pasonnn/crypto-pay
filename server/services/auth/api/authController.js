@@ -1,4 +1,4 @@
-const User = require('./authModel');
+const { User, RefreshToken } = require('./authModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -49,7 +49,7 @@ exports.login = async (req, res) => {
         }
 
         // Generate JWT tokens
-        const token = jwt.sign({ userId: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
         const refreshToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '30d' });
 
         // Save refresh token to database
@@ -132,12 +132,17 @@ exports.refreshToken = async (req, res) => {
         
         // Check if refresh token exists
         const refreshTokenDoc = await RefreshToken.findOne({ token: refreshToken });
+        console.log(refreshTokenDoc);
         if (!refreshTokenDoc) {
             return res.status(401).json({ message: 'Invalid refresh token' });
         }
 
+        if (refreshTokenDoc.revoked) {
+            return res.status(401).json({ message: 'Refresh token revoked' });
+        }
+
         // Generate a new access token
-        const token = jwt.sign({ userId: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ userId: refreshTokenDoc.userId}, process.env.JWT_SECRET, { expiresIn: '1h' });
 
         res.json({ message: 'Token refreshed successfully', token });
         

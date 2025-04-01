@@ -25,6 +25,10 @@ const userSchema = new Schema({
         enum: ['user', 'admin'],
         default: 'user',
     },    
+    createdAt: {
+        type: Date,
+        default: Date.now
+    }
 }, {timestamps: true});
 
 const refreshTokenSchema = new Schema({
@@ -44,9 +48,15 @@ const refreshTokenSchema = new Schema({
     revoked: {
         type: Boolean,
         default: false,
-    },
+    }
 }, {timestamps: true});
 
-// Export Auth Service's model
-module.exports = mongoose.model('User', userSchema);
-module.exports = mongoose.model('RefreshToken', refreshTokenSchema);
+// Create models
+const User = mongoose.model('User', userSchema);
+const RefreshToken = mongoose.model('RefreshToken', refreshTokenSchema);
+
+// Export both models
+module.exports = {
+    User,
+    RefreshToken
+};
