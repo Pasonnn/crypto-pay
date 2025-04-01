@@ -123,7 +123,7 @@ exports.updateProfile = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: 'Error updating profile', error: error.message });
     }
-};
+};      
 
 // Refresh Token
 exports.refreshToken = async (req, res) => {

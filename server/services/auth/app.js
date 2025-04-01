@@ -3,16 +3,20 @@
 // Import required modules
 const express = require('express');
 const mongoose = require('mongoose');
-const dotenv = require('dotenv');
+const cors = require('cors');
+const env = require('dotenv');
 const authRoutes = require('./api/authRoutes');
 
+env.config();
+
 // Load environment variables
-dotenv.config();
+const PORT = process.env.AUTH_PORT || 3001;
 
 // Create an instance of Express
 const app = express();
 
-// Middleware to parse JSON
+// Middleware
+app.use(cors());
 app.use(express.json());
 
 // Connect to MongoDB
@@ -20,19 +24,20 @@ mongoose.connect(process.env.DATABASE_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
-.then(() => console.log('Auth Service | Connected to MongoDB'))
-.catch((err) => console.error('Auth Service | Failed to connect to MongoDB:', err));
+.then(() => console.log('Connected to MongoDB Atlas'))
+.catch(err => console.error('MongoDB connection error:', err));
 
-// Define the main route
-app.get('/', (req, res) => {
-    res.send('Auth Service is running');
+// Routes
+app.use('/api/auth', authRoutes);
+
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok' });
 });
 
-// Use auth routes
-app.use('/auth', authRoutes);
-
-//Start the server
-const port = process.env.AUTH_SERVICE_PORT || 3001;
-app.listen(port, () => {
-    console.log(`Auth Service is running on localhost:${port}`);
+// Start server
+app.listen(PORT, () => {
+  console.log(`Auth service running on port ${PORT}`);
 });
+
+module.exports = app;
