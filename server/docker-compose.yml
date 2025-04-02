@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  auth-service:
+    container_name: auth-service
+    build: ./services/auth
+    ports:
+      - "${AUTH_PORT}:${AUTH_PORT}"
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=${DATABASE_URL}
+      - JWT_SECRET=${JWT_SECRET}
+      - AUTH_PORT=${AUTH_PORT}
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
