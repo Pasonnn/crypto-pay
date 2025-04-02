@@ -29,6 +29,7 @@ def generate_api_key(length: int = 32) -> str:
 
 class ApiKeyCreate(BaseModel):
     name: Optional[str] = None
+    wallet_address: Optional[str] = None
 
     model_config = {
         "populate_by_name": True,
