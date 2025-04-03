@@ -20,3 +20,9 @@ async def update_api_key_route(api_key_id: str, api_key_data: ApiKeyUpdate, curr
     """Update an existing API key"""
     return await update_api_key(api_key_id, api_key_data, current_user)
 
+@api_key_routes.get("/api_keys", response_model=ApiKeyResponse)
+async def get_api_key_for_user(current_user: dict = Depends(get_current_user)):
+    """Get the current user's API key"""
+    return await get_api_key(current_user)
+
+@api
